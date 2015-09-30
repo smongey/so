@@ -4,12 +4,42 @@
 * { box-sizing: border-box; -webkit-box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; 
     -moz-osx-font-smoothing: grayscale; }
 
-body {
-  font: 20px/28px 'Portrait', serif;
+
+$hero: 88px/95px 'Portrait', serif;
+$large: 48px/52px 'Portrait', serif;
+$medium: 36px/43px 'Portrait', serif;
+$regular: 22px/28px 'Portrait', serif;
+$small: 20px/28px 'Portrait', serif;
+$tiny: 18px/28px 'Portrait', serif;
+
+$midnight: #08152b;
+$navy: #091a33;
+$grey: #f3f3f3;
+$spacer: 60px;
+
+$cubic: cubic-bezier(.2,.87,.69,.96);
+
+::-moz-selection { background: #e6e6e6; color: lighten($midnight, 15%); }
+::selection { background: #e6e6e6; color: lighten($midnight, 15%); }
+
+html {
+  overflow-y: scroll;
 }
 
-p, h1, h2, h3, h4, h5, h6, a {
-  font: 20px/28px 'Portrait', serif;
+body {
+  font: $small;
+  transition: all $cubic .7s;
+  &.invert {
+    background: $midnight;
+    color: white;
+  }
+}
+
+p, a {
+  font: $small;
+  font-weight: normal;
+}
+h1, h2, h3, h4, h5, h6 {
   font-weight: normal;
 }
 
@@ -41,15 +71,11 @@ p, h1, h2, h3, h4, h5, h6, a {
   } 
 }
 
-$navy: #091a33;
-$grey: #f3f3f3;
-$spacer: 60px;
 
 // Grid
 .fluid {
   width: 100%;
   float: left;
-  line-height: 0;
   // background: #999;  
 }
 
@@ -63,12 +89,35 @@ $spacer: 60px;
   & > div:last-child {
     margin-right: 0;
   }
+  &.center {
+    text-align: center;
+  }
+  &.all {
+    padding: $spacer 5% 0;
+    text-align: center;
+  }
+  a.all {
+    color: $midnight;
+    border: 1px solid $midnight;
+    padding: 18px 26px 16px 26px;
+    text-transform: uppercase;
+    font-size: 16px;
+    letter-spacing: 2px;
+    transition: all ease .2s;
+    &:hover {
+      background: $midnight;
+      color: white;
+    }
+  }
 }
+
+
+
+
 
 .half {
   width: calc(50% - 30px);
   margin-right: 60px;
-  line-height: 0;
   //background: rgba(255,0,0,.1);
   overflow: hidden;
   .full {
@@ -96,6 +145,9 @@ $spacer: 60px;
   margin-right: 60px;
   // background: red;
 }
+.sixthoffset {
+  margin-left: calc(100% / 6 + 10px);
+}
 
 .twothirds {
   width: calc(100% / 6 * 4 - 20px);
@@ -120,8 +172,13 @@ $spacer: 60px;
   overflow: hidden; 
   position: relative;
   z-index: 1;
+  padding-top: $spacer;
   opacity: 1;
-  transition: opacity ease 1s;
+  transition: all $cubic .7s;
+  &.out {
+    padding-top: 70px;
+    opacity: 0;
+  }
 }
 
 ul, li {
@@ -143,43 +200,143 @@ section, header, footer {
 section div, footer div { float: left; }
 
 
+
 header {
+  position: fixed;
+  background: transparent;
   width: 100%;
-  background: white;
-  padding: $spacer / 2 0;
+  padding: $spacer / 1.25 0;
   text-align: center;
+  top: 0px;
+  z-index: 9999;
+  transition: all $cubic .5s;
+  &.locked {
+    background: white;
+    transform: translateY(-65%);
+    padding-top: $spacer;
+    padding-bottom: $spacer / 2;
+    .cart {
+      top: 120px;
+    }
+    .invert & {
+      background: $midnight;
+    }
+  }
+  .invert & {
+    background: transparent;
+    color: white;
+    .logo span svg {
+      fill: white;
+    }
+    li, a {
+      color: white;
+      border-color: white;
+      &:after {
+        background: white;
+      }
+    }
+  }
   .full {
     position: relative;
+  }
+  a {
+    color: $midnight;
+  }
+  .logo {
+    margin-bottom: $spacer / 2;
+    span {
+      display: block;
+      svg {
+        fill: $midnight;
+      }
+      &:last-child {
+        margin-top: -25px;
+        margin-bottom: -15px;
+      }
+    }
   }
   nav {
     width: 100%;
     li {
       display: inline-block;
+      margin-right: $spacer / 3;
+      &:last-child {
+        margin-right:0;
+      }
       a {
-        &.active {
-          background: black;
+        position: relative;
+        &:after {
+          content: '';
+          position: absolute;
+          left: 0px;
+          bottom: -5px;
+          height: 1px;
+          width: 100%;
+          background: $midnight;
+          opacity: 0;
+          transition: all ease .3s;
+        }
+        &.active, &:hover {
+          &:after {
+            opacity: 1; 
+          }
         }
       }
     }
   }
-  a.cart {
+  .cart {
     position: absolute;
+    display: block;
+    //border: 1px solid $midnight;
+    color: $midnight;
+    top: 20px;
+    padding: 6px 15px 4px 15px;
     right: 5%;
-    top: 0;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all $cubic .5s;
+    opacity: 0;
+    &.active {
+      opacity: 1;
+    }
+    span {
+      position: absolute;
+      right: 0;
+      top: 0;
+      margin-top: 10px;
+    }
+    .cart-icon {
+      stroke: #091A33;
+      margin-bottom: -8px;
+      .invert & {
+        stroke: white;
+      }
+    }
   }
 }
 
 
 .intro {
-
+  position: absolute;
   background: $navy;
   color: white;
   height: 100vh;
+  z-index: 9999;
+  margin: 0 0 200vh 0;
+  &.out {
+    display: none;
+  }
   .sphere {
     position: absolute;
     left: 50%;
     top: 5%;
     transform: translate(-50%, 0);
+    transition: all $cubic .7s;
+    &.out {
+      opacity: 0;
+      top: 7%;
+    }
   }
 
   .lucy {
@@ -187,6 +344,11 @@ header {
     left: 50%;
     bottom: 5%;
     transform: translate(-50%, 0);
+    transition: all $cubic .7s;
+    &.out {
+      opacity: 0;
+      bottom: 7%;
+    }
   }
 
   .title {
@@ -195,45 +357,406 @@ header {
     top: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+    transition: all 1s $cubic .7s;
+    &.out {
+      opacity: 0;
+      top: 51%;
+    }
     h1 {
-      font: 88px/95px 'Portrait', serif;
+      font: $hero;
       margin-bottom: $spacer / 4;
+      color: white;
+      padding: 0px;
+      font-feature-settings: "liga" 1; 
     }
     a.view {
       color: white;
-      font-size: 22px;
-      position: relative;
-      letter-spacing: .4px;
-      transition: all ease .2s;
-      z-index: 9999;
       &:before {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 1px;
         background: white;
-        left: 0px;
-        bottom: -5px;
-        transition: all ease .2s;
       }
       &:hover {
-        &:before {
-          bottom: 10px;    
+        color: $navy;
+      }
+    }
+  }
+}
+
+div.home {
+  background: #f3f3f3;
+
+  section {
+    padding: $spacer * 2 0;
+  }
+}
+
+.homething {
+  position: fixed;
+  top: 0;
+  z-index: 8888;
+  &.out {
+    position: absolute;
+  }
+}
+
+.pages {
+  padding-top: $spacer * 1.5 !important;
+  .page {
+    h3 {
+      font: $medium;
+      margin-bottom: $spacer / 1.5;
+      position: relative;
+      display: inline-block;
+      &:after {
+        content: '';
+        position: absolute;
+        height: 1px;
+        width: 100%;
+        background: $midnight;
+        left: 0px;
+        bottom: 0px;
+      }
+    }
+  }
+}
+
+.collection {
+  background: $grey; 
+  .title {
+    padding: 0 25%;
+    margin-bottom: $spacer * 1.5;
+    h2 {
+      margin-bottom: $spacer / 1.5;
+    }
+  }
+  .product {
+    text-align: center;
+    color: $midnight;
+  }
+  .full.product {
+    // padding: 0;
+  }
+  .standfirst {
+    background: white;
+    padding: $spacer * 1.5 0 0 0;
+    margin-bottom: $spacer * 1.5;
+    .title h2 {
+      margin-bottom: 0;
+    }
+  }
+  &.page {
+    .product {
+      img {
+        margin-bottom: $spacer / 2;
+      }
+      span {
+        opacity: .5;
+      }
+      p {
+        opacity: 0;
+        transition: all $cubic .5s;
+      }
+      &:hover {
+        p {
+          opacity: 1;
         }
       }
     }
   }
 }
 
-.home {
-  background: #f3f3f3;
+.general {
+  padding: 0 0 $spacer 0;
+  background: white;
+  .title {
+    padding: 0 25%;
+    margin-bottom: $spacer * 1.5;
+    h1 {
+      padding: $spacer / 2 0 0 0;
+      // margin-bottom: $spacer / 1.5;
+    }
+  }
 }
+
+.product {
+  margin-bottom: $spacer * 1.25;
+  h4 {
+    padding: $spacer / 2 0 $spacer /3 0;
+    font: $medium;
+    color: $midnight;
+  }
+  a.view {
+    color: $midnight;
+    opacity: .4;
+    font: $regular;
+  }
+}
+
+.product.page {
+  background: $grey;
+  padding: $spacer * 1.25 0;
+  .info {
+    padding-right: $spacer;
+    h1 {
+      font: $medium;
+      // display: block;
+      padding-bottom: $spacer;
+      .price {
+        background: white;
+        font: 500 16px/16px Courier, monospaced;
+        padding: 5px 20px;
+        margin-left: 10px;
+        letter-spacing: 1px;
+        vertical-align: 40%;
+        // -webkif-font-feature
+      }
+    }
+    p {
+      font: $regular;
+      margin-bottom: $spacer / 2;
+    }
+    .dropdown {
+      margin-top: 30px;
+      border-bottom: 1px solid $midnight;
+      float: left;
+      width: 100%;
+      li {
+        border-top: 1px solid $midnight;
+        padding: 16px 0;
+        position: relative;
+        &:before {
+          content: '';
+          display: block;
+          position: absolute;
+          left: 0px;
+          top: 0px;
+          height: 200px;
+          background: red;
+          width: 200px;
+        }
+        a {
+          color: $midnight;
+          
+        }
+      }
+      .hide {
+        display: none;
+      }
+    }
+    .sizes, .colours, .cart {
+      &.half {
+        width: calc(50% - 15px);
+        margin-right: 30px;
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+      background: $midnight;
+      color: white;
+      height: $spacer;
+      padding: 16px;
+      text-align: center;
+      li > ul {
+        display: none;
+      }
+      a, li {
+        color: white;
+        font: $tiny;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
+    }
+    .colours {
+      margin-right: 0 !important;
+    }
+    .cart {
+      margin-top: 30px;
+    }
+  }
+  .gallery {
+    position: relative;
+    overflow: hidden;
+    .thumbs {
+      display: block;
+      background: rgba(255,255,255,.5);
+      z-index: 8888;
+      position: absolute;
+      top: 0px;
+      text-align: center;
+      width: 100%;
+      li {
+        display: inline-block;
+        padding: 0 0 0 0;
+        transform: scale(.7);
+      }
+    }
+  }
+}
+
+.shop {
+  background: white;
+  .full.all {
+    text-align: left;
+    padding-top: $spacer / 2;
+  }
+  .half {
+    h3 {
+      font: $large;
+      margin-bottom: $spacer;
+    }
+  }
+  .half.right {
+    min-height: $spacer * 3;
+  }
+  .filter {
+    width: 100%;
+    padding: $spacer / 2 0 $spacer;
+    text-align: center;
+    a {
+      color: $navy;
+      opacity: .5;
+      transition: all ease .2s; 
+    }
+    a.active, a:hover {
+      opacity: 1;
+    }
+    ul {
+      li {
+        display: inline-block;
+        padding: 0 10px;
+      }
+    }
+  }
+  .dropdown {
+    position: relative;
+    min-height: 200px;
+    a {
+       color: $midnight;
+    }
+    .drop {
+      display: block;
+      position: absolute;
+      padding-right: 50px;
+      right: 0px;
+      bottom: 50px;
+      &:after {
+        content: '';
+        display: block;
+        border-right: 1px solid $midnight;
+        border-bottom: 1px solid $midnight;
+        position: absolute;
+        height: 15px;
+        width: 15px;
+        right: 10px;
+        top: -5px;
+        transform: rotate(45deg);
+      }
+      &:before {
+        content: '';
+        display: block;
+        width: 100%;
+        position: absolute;
+        height: 1px;
+        background: $midnight; 
+        left: 0px;
+        bottom: -4px;
+      }
+    }
+
+    ul {
+      display: none;
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: red;
+      right: 0px;
+    }
+  }
+
+}
+
+.page {
+  margin-top: 180px;
+}
+
+.shop.page {
+  .product {
+    text-align: center;
+  }
+}
+
+.about, .contact {
+  margin-bottom: $spacer;
+  .twothirds {
+    text-align: center;
+    p {
+      margin-bottom: $spacer / 2;
+    }
+  }
+  .ring {
+    float: none !important;
+    display: inline-block;
+    margin: $spacer / 2  0;
+    svg {
+      fill: white;
+      width: 65px;
+      height: 65px;
+    }
+  }
+}
+
+
+.title {
+  text-align: center;
+  h1 {
+    font: $large;
+    padding: $spacer * 1.5 0 0 0;
+    color: $midnight;
+  }
+  h2 {
+    font: $large;
+    color: $midnight;
+    margin-bottom: 0;
+    .about &, .contact & {
+      padding: $spacer * 1.25 25%;
+      color: white;
+    }
+  }
+  a.view {
+    color: $midnight;
+    font: $regular;
+    position: relative;
+    letter-spacing: .4px;
+    transition: all ease .2s;
+    z-index: 9999;
+    &:before {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      width: 100%;
+      height: 1px;
+      background: $midnight;
+      left: 0px;
+      bottom: -5px;
+      transition: all ease .2s;
+    }
+    &:hover {
+      color: white;
+      &:before {
+        bottom: -5px;
+        left: -5%;
+        height: 150%;
+        width: 110%; 
+      }
+    }
+  }
+}
+
 
 footer {
   width: 100%;
-  background: $navy;
+  background: $midnight;
   color: white;
-  padding: $spacer 0;
+  padding: $spacer 0 $spacer / 2 0;
   .full:not(:last-of-type) {
     margin-bottom: $spacer;
   }
@@ -242,6 +765,25 @@ footer {
   }
   li {
     margin-bottom: 5px;
+  }
+  li a {
+    position: relative;
+    &:after {
+      content: '';
+      position: absolute;
+      background: white;
+      width: 100%;
+      height: 1px;
+      left: 0px;
+      bottom: -3px;
+      opacity: 0;
+      transition: all ease .3s;
+    }
+    &:hover {
+      &:after {
+        opacity: 1;
+      }
+    }
   }
   .half > .full {
     margin-bottom: 0;
@@ -270,8 +812,13 @@ footer {
     //font: 14px/18px 'Courier New', monospaced;
     opacity: .4;
     text-align: right;
+    margin-top: $spacer / 3;
+    transition: all ease .3s;
+    &:hover {
+      opacity: 1;
+    }
   }
-  h5 { 
+  h4 { 
     margin-bottom: $spacer / 3;
   }
   form {
@@ -281,23 +828,32 @@ footer {
   input[type="text"], input[type="submit"] {
     outline: none;
     border: 1px solid white;
-    background: $navy;
+    background: $midnight;
     padding: 15px 25px;
-    font: 20px/28px 'Portrait', serif; 
+    font: $small;
     color: white;
     max-height: 60px;
     top: 0px;
+    transition: all ease .5s;
+    &:focus {
+      background: white;
+      color: $navy;
+    }
   }
   input[type="submit"] {
     text-transform: uppercase;
-    letter-spacing: 2px;
-    font-size: 18px;
+    letter-spacing: 3px;
+    font: $tiny;
     position: absolute;
     top: 0px;
     right: 0px;
     transform: translateX(98%);
-  }
 
+  }
+  .ring svg {
+    width: 55px;
+    height: 55px;
+  }
 }
 
 ::-webkit-input-placeholder { color: white; }

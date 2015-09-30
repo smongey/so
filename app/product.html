@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sphere One</title>
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <!-- build:css styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="/bower_components/foundation/css/foundation.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+
+  </head>
+  <body>
+    <!--[if lt IE 10]>
+      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    @@include('partials/_header.html')
+
+    <div id="wrap">
+ 
+      <section class="product page">
+        
+        <div class="full">
+          
+          <div class="half info">
+            <h1>Captain Nik Sweater <span class="price">€700</span></h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere vel natus ratione amet numquam! Quam voluptatibus, modi maxime doloremque nostrum!</p>
+            
+            <div class="full">
+              <div class="sizes half">
+                <li><a href="#">Size</a>
+                  <ul>
+                    <li>Small</li>
+                    <li>Medium</li>
+                    <li>Large</li>
+                  </ul>
+                </li>
+              </div>
+
+              <div class="colours half">
+                <li><a href="#">Colour</a>
+                  <ul>
+                    <li>Black</li>
+                    <li>White</li>
+                    <li>Grey</li>
+                  </ul>
+                </li>
+              </div>
+            </div>
+
+            <div class="cart full">
+              <a href="#">Add to cart</a>
+            </div>
+
+            <ul class="dropdown">
+              <li>
+                <a href="#">Details &amp; Fit</a>
+                <div class="hide">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed laudantium harum provident cum, dicta odit nam tempore magnam reiciendis, ea.
+                </div>
+              </li>
+              <li>
+                <a href="#">Measurements</a>
+                <div class="hide">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed laudantium harum provident cum, dicta odit nam tempore magnam reiciendis, ea.
+                </div>
+              </li>
+            </ul>
+
+          </div>
+
+          <div class="half gallery">
+            <img src="http://placehold.it/700x1000" alt="">
+            <div class="thumbs">
+              <ul>
+                <li><a href="#"><img src="http://placehold.it/100x70" alt=""></a></li>
+                <li><a href="#"><img src="http://placehold.it/100x70" alt=""></a></li>
+                <li><a href="#"><img src="http://placehold.it/100x70" alt=""></a></li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+      </section> 
+
+      @@include('partials/_footer.html')
+
+    </div>
+    
+
+
+  @@include('partials/_end.html')
