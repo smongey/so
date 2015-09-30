@@ -37,7 +37,7 @@ so.updateMenu = function(){
 }
 
 so.fadeInItems = function(){
-	if (so.$w[0].location.pathname === "/" || so.$w[0].location.pathname === "/index.html") {
+	if (so.$w[0].location.pathname === "/" || so.$w[0].location.pathname === "/index.html" || so.$w[0].location.pathname === "/so/") {
 		setTimeout(function(){
 			$('.intro').children().removeClass('out');
 		}, 500);
