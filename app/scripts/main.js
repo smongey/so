@@ -48,6 +48,8 @@ so.$d.ready(function(){
 	
 	so.updateMenu();
 
+	so.productSwitch();
+
 });
 
 so.pageLoad = function(){
@@ -83,8 +85,10 @@ so.ajaxCall = function(page, contents) {
 	setTimeout(function(){
 		$('#wrap > *').remove();
 		$('#wrap').load(contents, function(){
+			so.productSwitch();
 			setTimeout(function(){
 				$('#wrap').removeClass('out');	
+				
 			}, 300);
 		});
 	}, 500);
@@ -105,13 +109,13 @@ so.$w.load(function(){
 
 
 // Interactions
-//		back to top button
+//		clicks
 so.$d.on('click', 'a.top', function(){
 
 	$('html, body').animate({ scrollTop: 0 }, 700, 'easeInOutQuint');
 
 //		ajax nav
-}).on('click', 'a:not([href^="http"]), a:not([href^="https"])', function(e){
+}).on('click', 'header a, .product:not(.page) a, footer a', function(e){
 
 	e.preventDefault();
 	so.page = $(this)[0].pathname;
@@ -125,8 +129,21 @@ so.$d.on('click', 'a.top', function(){
 	e.preventDefault();
 	$('html, body').animate({ scrollTop: so.introH }, 800, 'easeInOutQuint');
 
+}).on('click', '.thumbs a', function(e){
+	
+	e.preventDefault();
+	l(e);
+
+}).on('click', '.dropdown li a', function(e){
+	e.preventDefault();
+	l('clicked');
+	// $('.dropdown li a').removeClass('active');
+	// $('.dropdown div').addClass('hide');
+	$(this).toggleClass('active')
+	$(this).next().toggleClass('hide');
 });
 
+//		popstate
 so.$w.on('popstate', function(e) {
 
 	so.page = window.location.href;
@@ -167,8 +184,8 @@ so.introH = $('section.intro').height();
 so.intro = true;
 so.position = so.$w.scrollTop();
 
-// Scroll
-so.$d.on('scroll', function(e){
+// 		Scroll
+so.$d.on('scroll touchmove', function(e){
 	var currentScrollPos = so.$w[0].pageYOffset;
 
 
@@ -200,5 +217,11 @@ so.$d.on('scroll', function(e){
 });
 
 
+
+so.productSwitch = function() {
+	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+		$('.info').before($('.gallery'));
+	}
+}
 
 

@@ -4,7 +4,36 @@
 * { box-sizing: border-box; -webkit-box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; 
     -moz-osx-font-smoothing: grayscale; }
 
+// Responsive
+$phone-width: 480px;
+$tablet-width: 768px;
+$desktop-width: 1024px;
 
+@mixin mobile {
+ @media (max-width: #{$phone-width}) {
+    @content;
+  }
+}
+
+@mixin phone {
+  @media (min-width: #{$phone-width}) and (max-width: #{$tablet-width - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$desktop-width}) {
+    @content;
+  }
+}
+
+// Type
 $hero: 88px/95px 'Portrait', serif;
 $large: 48px/52px 'Portrait', serif;
 $medium: 36px/43px 'Portrait', serif;
@@ -12,12 +41,15 @@ $regular: 22px/28px 'Portrait', serif;
 $small: 20px/28px 'Portrait', serif;
 $tiny: 18px/28px 'Portrait', serif;
 
+// Colours
 $midnight: #08152b;
 $navy: #091a33;
 $grey: #f3f3f3;
 $spacer: 60px;
 
+// Easing
 $cubic: cubic-bezier(.2,.87,.69,.96);
+
 
 ::-moz-selection { background: #e6e6e6; color: lighten($midnight, 15%); }
 ::selection { background: #e6e6e6; color: lighten($midnight, 15%); }
@@ -39,6 +71,12 @@ p, a {
   font: $small;
   font-weight: normal;
 }
+p > a {
+  font: inherit;
+  color: inherit;
+  border-bottom: 1px solid $midnight;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-weight: normal;
 }
@@ -112,9 +150,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
-
-
-
 .half {
   width: calc(50% - 30px);
   margin-right: 60px;
@@ -124,6 +159,10 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0;
   }
   &:nth-child(2n) {
+    margin-right: 0;
+  }
+  @include mobile {
+    width: 100%;
     margin-right: 0;
   }
 }
@@ -136,6 +175,10 @@ h1, h2, h3, h4, h5, h6 {
     margin-right: 0;
   }
   &:last-child {
+    margin-right: 0;
+  }
+  @include mobile {
+    width: 100%;
     margin-right: 0;
   }
 }
@@ -262,6 +305,9 @@ header {
       margin-right: $spacer / 3;
       &:last-child {
         margin-right:0;
+      }
+      @include mobile {
+        margin-right: 10px;
       }
       a {
         position: relative;
@@ -479,6 +525,9 @@ div.home {
 
 .product {
   margin-bottom: $spacer * 1.25;
+  @include mobile {
+    margin-bottom: $spacer / 1.5;
+  }
   h4 {
     padding: $spacer / 2 0 $spacer /3 0;
     font: $medium;
@@ -494,12 +543,31 @@ div.home {
 .product.page {
   background: $grey;
   padding: $spacer * 1.25 0;
+  margin-bottom: 0;
+  @include mobile {
+    padding: 0 0 $spacer * .75 0;
+    .full {
+      padding: 0;
+      .gallery {
+        margin-bottom: $spacer / 1.5;
+      }
+      .info {
+        padding: 0 5%;
+      }
+    }
+  }
   .info {
     padding-right: $spacer;
+    @include mobile {
+      padding-right: 0;
+    }
     h1 {
       font: $medium;
       // display: block;
       padding-bottom: $spacer;
+      @include mobile {
+        text-align: center;
+      }
       .price {
         background: white;
         font: 500 16px/16px Courier, monospaced;
@@ -508,6 +576,9 @@ div.home {
         letter-spacing: 1px;
         vertical-align: 40%;
         // -webkif-font-feature
+        @include mobile {
+          margin-left: 0;
+        }
       }
     }
     p {
@@ -516,26 +587,46 @@ div.home {
     }
     .dropdown {
       margin-top: 30px;
-      border-bottom: 1px solid $midnight;
       float: left;
       width: 100%;
+      @include mobile {
+        display: none;
+      }
       li {
-        border-top: 1px solid $midnight;
-        padding: 16px 0;
+        // border-top: 1px solid $midnight;
+        display: block;
         position: relative;
-        &:before {
-          content: '';
-          display: block;
-          position: absolute;
-          left: 0px;
-          top: 0px;
-          height: 200px;
-          background: red;
-          width: 200px;
-        }
         a {
           color: $midnight;
-          
+          display: block;
+          position: relative;
+          padding: 16px 0;
+          &:before {
+            content: '';
+            display: block;
+            position: absolute;
+            right: 10px;
+            bottom: 25px;
+            height: 15px;
+            width: 15px;
+            border-right: 1px solid $midnight;
+            border-bottom: 1px solid $midnight;
+            transform-origin: 70% 70%;
+            transform: rotate(45deg);
+            transition: all $cubic .4s;
+          }
+          &.active {
+            &:before {
+              transform: rotate(225deg);
+            }
+          }
+        }
+        div {
+          display: block;
+          // background: red;
+          // border-bottom: 1px solid $midnight;
+          padding: 15px 0;
+          margin-bottom: 15px;
         }
       }
       .hide {
@@ -575,18 +666,37 @@ div.home {
   .gallery {
     position: relative;
     overflow: hidden;
+    &:hover {
+      .thumbs {
+        transform: translateY(0%);
+        opacity: 1;
+      }
+    }
     .thumbs {
       display: block;
-      background: rgba(255,255,255,.5);
+      background: $grey;
       z-index: 8888;
       position: absolute;
       top: 0px;
       text-align: center;
       width: 100%;
+      transition: all $cubic .3s;
+      transform: translateY(-100%);
+      @include mobile {
+        transform: translateY(0%);
+        opacity: 1;
+        position: relative;
+      }
       li {
         display: inline-block;
         padding: 0 0 0 0;
+        height: 100px;
+        width: 100px;
         transform: scale(.7);
+        img {
+          max-height: 100%;
+          max-width: 100%;
+        }
       }
     }
   }
