@@ -370,6 +370,9 @@ header {
   height: 100vh;
   z-index: 9999;
   margin: 0 0 200vh 0;
+  @include mobile {
+    display: none;
+  }
   &.out {
     display: none;
   }
@@ -414,6 +417,9 @@ header {
       color: white;
       padding: 0px;
       font-feature-settings: "liga" 1; 
+      @include mobile {
+        font: $large; 
+      }
     }
     a.view {
       color: white;
@@ -613,7 +619,7 @@ div.home {
             border-bottom: 1px solid $midnight;
             transform-origin: 70% 70%;
             transform: rotate(45deg);
-            transition: all $cubic .4s;
+            transition: all $cubic .2s;
           }
           &.active {
             &:before {
