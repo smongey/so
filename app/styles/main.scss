@@ -65,6 +65,9 @@ body {
     background: $midnight;
     color: white;
   }
+  &.lock {
+    overflow: hidden;
+  }
 }
 
 p, a {
@@ -79,6 +82,7 @@ p > a {
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: normal;
+  font-feature-settings: "liga" 1;
 }
 
 .grid {
@@ -242,6 +246,34 @@ section, header, footer {
 
 section div, footer div { float: left; }
 
+#loader {
+  left: 0px;
+  top: 20%;
+  right: 0px;
+  bottom: 20%;
+  position: absolute;
+  z-index: 9998;
+  background: $navy;
+  display: block;
+  transition: all $cubic .7s;
+  svg {
+    width: 150px;
+    height: 150px;
+    fill: white;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: all $cubic .7s;
+    &.out {
+      opacity: 0;
+    }
+  }
+  &.out {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
 
 
 header {
@@ -368,7 +400,7 @@ header {
   background: $navy;
   color: white;
   height: 100vh;
-  z-index: 9999;
+  z-index: 9997;
   margin: 0 0 200vh 0;
   @include mobile {
     display: none;
@@ -382,6 +414,7 @@ header {
     top: 5%;
     transform: translate(-50%, 0);
     transition: all $cubic .7s;
+    z-index: 9999;
     &.out {
       opacity: 0;
       top: 7%;
@@ -394,6 +427,7 @@ header {
     bottom: 5%;
     transform: translate(-50%, 0);
     transition: all $cubic .7s;
+    z-index: 9999;
     &.out {
       opacity: 0;
       bottom: 7%;
@@ -415,8 +449,7 @@ header {
       font: $hero;
       margin-bottom: $spacer / 4;
       color: white;
-      padding: 0px;
-      font-feature-settings: "liga" 1; 
+      padding: 0px; 
       @include mobile {
         font: $large; 
       }
@@ -539,10 +572,18 @@ div.home {
     font: $medium;
     color: $midnight;
   }
-  a.view {
+  span.view {
     color: $midnight;
     opacity: .4;
     font: $regular;
+    transition: all $cubic .5s;
+  }
+  a {
+    &:hover {
+      span.view {
+        opacity: 1;
+      }
+    }
   }
 }
 
