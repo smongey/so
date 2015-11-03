@@ -402,11 +402,13 @@ header {
   height: 100vh;
   z-index: 9997;
   margin: 0 0 200vh 0;
+  transition: all $cubic .7s;
   @include mobile {
     display: none;
   }
   &.out {
-    display: none;
+    opacity: 0;
+    pointer-events: none;
   }
   .sphere {
     position: absolute;
